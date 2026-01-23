@@ -162,17 +162,11 @@
         </div>
     </section>
 
-    <!-- Listing Section -->
+    <!-- Listing property Section -->
     <section id="listing" class="listing-section">
         <div class="container">
             <h2 class="section-title-about text-center" data-aos="fade-up" data-aos-duration="1000">Properti Unggulan</h2>
             <p class="text-center mb-4" data-aos="fade-up" data-aos-duration="1000">Temukan properti impian Anda dari koleksi terbaik kami</p>
-            
-            <!-- Tambahkan tombol filter di sini -->
-            <div class="filter-buttons" data-aos="fade-up" data-aos-duration="1000">
-                <button class="filter-btn active" data-type="property">Property dijual di Jepang</button>
-                <button class="filter-btn" data-type="mna">Deal M&A (Teaser)</button>
-            </div>
             
             <!-- Loading indicator -->
             <div class="loading-indicator" id="loadingIndicator">
@@ -196,6 +190,108 @@
             </div>
         </div>
     </section>
+
+<!-- Listing mna Section -->
+<section id="listing" class="listing-section" style="margin-top:-100px!important;">
+    <div class="container">
+        <h2 class="section-title-about text-center" data-aos="fade-up" data-aos-duration="1000">M&A Unggulan</h2>
+        <p class="text-center mb-4" data-aos="fade-up" data-aos-duration="1000">Temukan M&A impian Anda dari koleksi terbaik kami</p>
+        
+        <!-- Loading indicator -->
+        <div class="loading-indicator" id="loadingIndicator">
+            <div class="spinner"></div>
+            <p>Memuat data...</p>
+        </div>
+        
+        <!-- Container untuk produk listing -->
+        <div class="row" id="listingMnaContainer">
+            <!-- Produk 1 -->
+            <div class="col-md-6 col-lg-4" 
+                data-aos="fade-up"
+                data-aos-delay="0"
+                data-aos-duration="800">
+                <div class="property-card">
+                    <div class="property-img">
+                        <img src="https://images.unsplash.com/photo-1559329007-40df8a9345d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Restoran Jepang di Shinjuku">
+                    </div>
+                    <div class="property-info">
+                        <h5>Restoran Jepang di Shinjuku</h5>
+                        <p class="text-muted">Tokyo, Jepang</p>
+                        <p class="property-price">¥ 150 Juta</p>
+                        <div class="property-features">
+                            <span><i class="fas fa-utensils"></i> Restoran</span>
+                            <span><i class="fas fa-yen-sign"></i> Omzet ¥50jt/bulan</span>
+                            <span><i class="fas fa-users"></i> 10 Karyawan</span>
+                        </div>
+                        <a href="detail-product-mna.php?id=1" class="btn btn-primary mt-3" data-aos="zoom-in" data-aos-delay="200">
+                            Lihat Detail <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Produk 2 -->
+            <div class="col-md-6 col-lg-4" 
+                data-aos="fade-up"
+                data-aos-delay="200"
+                data-aos-duration="800">
+                <div class="property-card">
+                    <div class="property-img">
+                        <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Kafe Minimalis di Shibuya">
+                    </div>
+                    <div class="property-info">
+                        <h5>Kafe Minimalis di Shibuya</h5>
+                        <p class="text-muted">Tokyo, Jepang</p>
+                        <p class="property-price">¥ 80 Juta</p>
+                        <div class="property-features">
+                            <span><i class="fas fa-coffee"></i> Kafe</span>
+                            <span><i class="fas fa-yen-sign"></i> Omzet ¥30jt/bulan</span>
+                            <span><i class="fas fa-users"></i> 6 Karyawan</span>
+                        </div>
+                        <a href="detail-product-mna.php?id=2" class="btn btn-primary mt-3" data-aos="zoom-in" data-aos-delay="400">
+                            Lihat Detail <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Produk 3 -->
+            <div class="col-md-6 col-lg-4" 
+                data-aos="fade-up"
+                data-aos-delay="400"
+                data-aos-duration="800">
+                <div class="property-card">
+                    <div class="property-img">
+                        <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Ramen Shop di Ginza">
+                    </div>
+                    <div class="property-info">
+                        <h5>Ramen Shop di Ginza</h5>
+                        <p class="text-muted">Tokyo, Jepang</p>
+                        <p class="property-price">¥ 120 Juta</p>
+                        <div class="property-features">
+                            <span><i class="fas fa-utensils"></i> Ramen Shop</span>
+                            <span><i class="fas fa-yen-sign"></i> Omzet ¥45jt/bulan</span>
+                            <span><i class="fas fa-users"></i> 8 Karyawan</span>
+                        </div>
+                        <a href="detail-product-mna.php?id=3" class="btn btn-primary mt-3" data-aos="zoom-in" data-aos-delay="600">
+                            Lihat Detail <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-10 mt-1 text-danger"><hr></div>
+            <div class="col-2">
+                <a href="listings.php" type="button" class="btn btn-outline-danger">
+                    <span class="d-none d-lg-inline">Lihat Semua</span>
+                    <i class="fas fa-arrow-right ms-lg-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
 
     <!-- Blog Section -->
     <section id="blog" class="blog-section py-5">
