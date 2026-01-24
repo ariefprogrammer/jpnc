@@ -14,7 +14,7 @@
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
             <a class="navbar-brand" href="index.php">
                 <i class="fas fa-building me-2"></i>Japanect Consulting
@@ -24,26 +24,29 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
+                    <li class="nav-item" style="margin-left:10px; margin-right:10px;">
                         <a class="nav-link" href="index.php#home">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="about.php">About</a>
+                    <li class="nav-item" style="margin-left:10px; margin-right:10px;">
+                        <a class="nav-link" href="about.php">About</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" style="margin-left:10px; margin-right:10px;">
                         <a class="nav-link" href="services.php">Layanan</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="listings.php">Listing</a>
+                    <li class="nav-item" style="margin-left:10px; margin-right:10px;">
+                        <a class="nav-link" href="property.php">Properti</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" style="margin-left:10px; margin-right:10px;">
+                        <a class="nav-link" href="mna.php">M&A</a>
+                    </li>
+                    <li class="nav-item" style="margin-left:10px; margin-right:10px;">
                         <a class="nav-link" href="blogs.php">Blog</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" style="margin-left:10px; margin-right:10px;">
                         <a class="nav-link" href="index.php#contact">Contact</a>
                     </li>
-                    <li>
-                        <a href="index.php#contact" class="btn btn-primary2">
+                    <li class="nav-item">
+                        <a href="index.php#contact" class="btn btn-primary2 ms-2">
                             <i class="fas fa-calendar-check me-2"></i>Jadwalkan Konsultasi Gratis
                         </a>
                     </li>
