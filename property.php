@@ -274,7 +274,7 @@
         const propertyListingsData = [
     {
         id: 1,
-        link: "detail-product-property.php?id=1",
+        link: "detail-product-mna.php?id=1",
         title: "Apartemen Premium Shinjuku Sky View",
         location: "Shinjuku, Tokyo",
         price: "¥ 120 Juta",
@@ -290,7 +290,7 @@
     },
     {
         id: 2,
-        link: "detail-product-property.php?id=2",
+        link: "detail-product-mna.php?id=2",
         title: "Rumah Tradisional Kyoto Machiya",
         location: "Gion, Kyoto",
         price: "¥ 250 Juta",
@@ -306,7 +306,7 @@
     },
     {
         id: 3,
-        link: "detail-product-property.php?id=3",
+        link: "detail-product-mna.php?id=3",
         title: "Kondo Modern di Akihabara",
         location: "Akihabara, Tokyo",
         price: "¥ 85 Juta",
@@ -322,7 +322,7 @@
     },
     {
         id: 4,
-        link: "detail-product-property.php?id=4",
+        link: "detail-product-mna.php?id=4",
         title: "Townhouse Luxe di Roppongi",
         location: "Roppongi, Tokyo",
         price: "¥ 350 Juta",
@@ -338,7 +338,7 @@
     },
     {
         id: 5,
-        link: "detail-product-property.php?id=5",
+        link: "detail-product-mna.php?id=5",
         title: "Apartemen dengan Onsen View Hakone",
         location: "Hakone, Kanagawa",
         price: "¥ 180 Juta",
@@ -354,7 +354,7 @@
     },
     {
         id: 6,
-        link: "detail-product-property.php?id=6",
+        link: "detail-product-mna.php?id=6",
         title: "Villa Modern di Shonan",
         location: "Shonan, Kanagawa",
         price: "¥ 500 Juta",
@@ -370,7 +370,7 @@
     },
     {
         id: 7,
-        link: "detail-product-property.php?id=7",
+        link: "detail-product-mna.php?id=7",
         title: "Ruko Komersial di Shibuya",
         location: "Shibuya, Tokyo",
         price: "¥ 450 Juta",
@@ -386,7 +386,7 @@
     },
     {
         id: 8,
-        link: "detail-product-property.php?id=8",
+        link: "detail-product-mna.php?id=8",
         title: "Apartemen Studio di Shinagawa",
         location: "Shinagawa, Tokyo",
         price: "¥ 75 Juta",
@@ -402,7 +402,7 @@
     },
     {
         id: 9,
-        link: "detail-product-property.php?id=9",
+        link: "detail-product-mna.php?id=9",
         title: "Rumah Keluarga di Yokohama",
         location: "Yokohama, Kanagawa",
         price: "¥ 320 Juta",
@@ -418,7 +418,7 @@
     },
     {
         id: 10,
-        link: "detail-product-property.php?id=10",
+        link: "detail-product-mna.php?id=10",
         title: "Apartemen View Fuji di Gotemba",
         location: "Gotemba, Shizuoka",
         price: "¥ 150 Juta",
@@ -434,7 +434,7 @@
     },
     {
         id: 11,
-        link: "detail-product-property.php?id=11",
+        link: "detail-product-mna.php?id=11",
         title: "Rumah Minimalis di Kobe",
         location: "Kobe, Hyogo",
         price: "¥ 280 Juta",
@@ -450,7 +450,7 @@
     },
     {
         id: 12,
-        link: "detail-product-property.php?id=12",
+        link: "detail-product-mna.php?id=12",
         title: "Apartemen Premium di Ginza",
         location: "Ginza, Tokyo",
         price: "¥ 200 Juta",
@@ -466,7 +466,7 @@
     },
     {
         id: 13,
-        link: "detail-product-property.php?id=13",
+        link: "detail-product-mna.php?id=13",
         title: "Tanah Kavling di Chiba",
         location: "Chiba-shi, Chiba",
         price: "¥ 90 Juta",
@@ -482,7 +482,7 @@
     },
     {
         id: 14,
-        link: "detail-product-property.php?id=14",
+        link: "detail-product-mna.php?id=14",
         title: "Rumah Tua Renovasi di Osaka",
         location: "Namba, Osaka",
         price: "¥ 190 Juta",
@@ -498,7 +498,7 @@
     },
     {
         id: 15,
-        link: "detail-product-property.php?id=15",
+        link: "detail-product-mna.php?id=15",
         title: "Apartemen dekat Stasiun Tokyo",
         location: "Chiyoda, Tokyo",
         price: "¥ 135 Juta",
@@ -514,7 +514,7 @@
     },
     {
         id: 16,
-        link: "detail-product-property.php?id=16",
+        link: "detail-product-mna.php?id=16",
         title: "Villa Ski di Niseko",
         location: "Niseko, Hokkaido",
         price: "¥ 600 Juta",
@@ -530,7 +530,7 @@
     },
     {
         id: 17,
-        link: "detail-product-property.php?id=17",
+        link: "detail-product-mna.php?id=17",
         title: "Gedung Perkantoran di Nagoya",
         location: "Nagoya, Aichi",
         price: "¥ 800 Juta",
@@ -546,7 +546,7 @@
     },
     {
         id: 18,
-        link: "detail-product-property.php?id=18",
+        link: "detail-product-mna.php?id=18",
         title: "Mansion di Meguro",
         location: "Meguro, Tokyo",
         price: "¥ 420 Juta",
@@ -562,7 +562,7 @@
     },
     {
         id: 19,
-        link: "detail-product-property.php?id=19",
+        link: "detail-product-mna.php?id=19",
         title: "Apartemen Murah di Saitama",
         location: "Saitama-shi, Saitama",
         price: "¥ 65 Juta",
@@ -578,7 +578,7 @@
     },
     {
         id: 20,
-        link: "detail-product-property.php?id=20",
+        link: "detail-product-mna.php?id=20",
         title: "Rumah Peternakan di Hokkaido",
         location: "Sapporo, Hokkaido",
         price: "¥ 350 Juta",

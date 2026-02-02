@@ -471,7 +471,7 @@ body {
         }
         
         .service-card {
-            border-radius: 15px;
+            border-radius: 10px;
             overflow: visible;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             transition: transform 0.3s, box-shadow 0.3s;
@@ -735,7 +735,7 @@ body {
         /* Blog Card Styles */
         .blog-card {
             background: white;
-            border-radius: 12px;
+            border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.08);
             transition: all 0.3s ease;
@@ -1174,7 +1174,7 @@ body {
         }
         
         .team-card {
-            border-radius: 15px;
+            border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             transition: transform 0.3s;
@@ -1450,6 +1450,7 @@ body {
             background-size: cover;
             background-position: center;
             color: white;
+            margin-top: 20px;
         }
 
         .about-hero h1 {
