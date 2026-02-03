@@ -62,6 +62,30 @@
         
         <div class="row g-4">
             <!-- Service Card 1 -->
+             <div class="col-md-4 mb-2" data-aos="zoom-in-up" data-aos-duration="1500">
+                <div class="card service-card">
+                    <div class="p-top-reason__tag">
+                        Service 2
+                    </div>
+                    <div class="card-body p-4 text-center">
+                        <div class="text-center p-3">
+                            <img src="img/mna.png" alt="Property Icon" style="max-width: 180px;"/>
+                        </div>
+                        <h4 class="card-title mb-3">M&A (Buy‑side)</h4>
+                        <p class="card-text" style="height: 50px;">
+                            Pencarian target UKM, evaluasi awal, DD, negosiasi, closing/PMI.
+                        </p>
+                        <p class="service-note">
+                            *Ikuti pedoman M&A UKM*
+                        </p>
+                        <div class="dashline-separator-custom">
+                            <a href="detail-service.php" class="btn btn-primary2 mt-3">Lihat Detail <i class="fas fa-arrow-right ms-2"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Service Card 2 -->
             <div class="col-md-4 mb-2" data-aos="zoom-in-up" data-aos-duration="1000">
                 <div class="card service-card">
                     <div class="p-top-reason__tag">
@@ -77,30 +101,6 @@
                         </p>
                         <p class="service-note">
                             *Dengan agen berlisensi*
-                        </p>
-                        <div class="dashline-separator-custom">
-                            <a href="detail-service.php" class="btn btn-primary2 mt-3">Lihat Detail <i class="fas fa-arrow-right ms-2"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Service Card 2 -->
-            <div class="col-md-4 mb-2" data-aos="zoom-in-up" data-aos-duration="1500">
-                <div class="card service-card">
-                    <div class="p-top-reason__tag">
-                        Service 2
-                    </div>
-                    <div class="card-body p-4 text-center">
-                        <div class="text-center p-3">
-                            <img src="img/mna.png" alt="Property Icon" style="max-width: 180px;"/>
-                        </div>
-                        <h4 class="card-title mb-3">M&A (Buy‑side)</h4>
-                        <p class="card-text" style="height: 50px;">
-                            Pencarian target UKM, evaluasi awal, DD, negosiasi, closing/PMI.
-                        </p>
-                        <p class="service-note">
-                            *Ikuti pedoman M&A UKM*
                         </p>
                         <div class="dashline-separator-custom">
                             <a href="detail-service.php" class="btn btn-primary2 mt-3">Lihat Detail <i class="fas fa-arrow-right ms-2"></i></a>
