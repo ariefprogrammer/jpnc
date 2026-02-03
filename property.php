@@ -19,24 +19,58 @@
             <div class="col-12">
                 <div class="card filter-card p-4">
                     <div class="row align-items-center">
-                        <div class="col-md-4 mb-3 mb-md-0">
-                            <h5 class="mb-2">Urutkan Properti</h5>
-                            <p class="text-muted small">Sesuaikan urutan properti</p>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="d-flex flex-wrap align-items-center justify-content-md-end gap-3">
-                                <div class="filter-group">
-                                    <div class="d-flex align-items-center">
-                                        <label class="form-label small text-muted mb-0 me-2">Urutkan:</label>
-                                        <select class="form-select sort-select" style="min-width: 200px;">
-                                            <option value="newest">Terbaru</option>
-                                            <option value="price-low">Harga: Rendah ke Tinggi</option>
-                                            <option value="price-high">Harga: Tinggi ke Rendah</option>
-                                            <option value="name">Nama (A-Z)</option>
+                        <div class="col-md-8 mb-3 mb-md-0">
+                            <h5 class="mb-2">Filter Property</h5>
+                            <!-- Filter disini -->
+                             <div class="col-md-12">
+                                <div class="row g-2">
+                                    <div class="col-md-3">
+                                        <select class="form-select filter-input" id="filterArea">
+                                            <option value="">Semua Area</option>
+                                            <option value="Tokyo">Tokyo</option>
+                                            <option value="Kyoto">Kyoto</option>
+                                            <option value="Kanagawa">Kanagawa</option>
+                                            <option value="Osaka">Osaka</option>
+                                            <option value="Hokkaido">Hokkaido</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <select class="form-select filter-input" id="filterJenis">
+                                            <option value="">Semua Jenis</option>
+                                            <option value="Apartemen">Apartemen</option>
+                                            <option value="Rumah">Rumah</option>
+                                            <option value="Kondo">Kondo</option>
+                                            <option value="Villa">Villa</option>
+                                            <option value="Komersial">Komersial</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <select class="form-select filter-input" id="filterBudget">
+                                            <option value="">Semua Budget</option>
+                                            <option value="0-100">Dibawah ¥ 100 Juta</option>
+                                            <option value="100-300">¥ 100 - 300 Juta</option>
+                                            <option value="300-9999">Diatas ¥ 300 Juta</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <select class="form-select filter-input" id="filterType">
+                                            <option value="">Buy/Rent</option>
+                                            <option value="Buy">Buy</option>
+                                            <option value="Rent">Rent</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="col-md-4 mb-3 mb-md-0">
+                            <h5 class="mb-2">Urutkan</h5>
+                            <select class="form-select sort-select" style="min-width: 200px;">
+                                <option value="newest">Terbaru</option>
+                                <option value="price-low">Harga: Rendah ke Tinggi</option>
+                                <option value="price-high">Harga: Tinggi ke Rendah</option>
+                                <option value="name">Nama (A-Z)</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -250,9 +284,9 @@
         }
     }
 </style>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // DOM Elements
         const allListingsContainer = document.getElementById('allListingsContainer');
         const loadingIndicator = document.getElementById('loadingIndicator');
         const emptyState = document.getElementById('emptyState');
@@ -261,554 +295,214 @@
         const sortSelect = document.querySelector('.sort-select');
         const resetFiltersBtn = document.querySelector('.reset-filters');
         
+        // Filter Elements (Pastikan ID ini sesuai dengan di HTML Anda)
+        const filterArea = document.getElementById('filterArea');
+        const filterJenis = document.getElementById('filterJenis');
+        const filterBudget = document.getElementById('filterBudget');
+        const filterType = document.getElementById('filterType');
+
         // Counter elements
         const totalListingsCount = document.getElementById('totalListingsCount');
         const apartmentCount = document.getElementById('apartmentCount');
         const houseCount = document.getElementById('houseCount');
         
-        // Variabel untuk pagination
+        // Variabel Global
         let currentPage = 1;
         const listingsPerPage = 9;
         
-        // Data dummy untuk properti saja
+        // Data Listings
         const propertyListingsData = [
-    {
-        id: 1,
-        link: "detail-product-mna.php?id=1",
-        title: "Apartemen Premium Shinjuku Sky View",
-        location: "Shinjuku, Tokyo",
-        price: "¥ 120 Juta",
-        image: "https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        type: "property",
-        category: "Apartemen",
-        features: [
-            { icon: "fas fa-bed", text: "2 Kamar" },
-            { icon: "fas fa-bath", text: "1 Kamar Mandi" },
-            { icon: "fas fa-ruler-combined", text: "65 m²" }
-        ],
-        dateAdded: "2024-02-15"
-    },
-    {
-        id: 2,
-        link: "detail-product-mna.php?id=2",
-        title: "Rumah Tradisional Kyoto Machiya",
-        location: "Gion, Kyoto",
-        price: "¥ 250 Juta",
-        image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        type: "property",
-        category: "Rumah",
-        features: [
-            { icon: "fas fa-bed", text: "4 Kamar" },
-            { icon: "fas fa-bath", text: "2 Kamar Mandi" },
-            { icon: "fas fa-tree", text: "Taman Jepang" }
-        ],
-        dateAdded: "2024-02-10"
-    },
-    {
-        id: 3,
-        link: "detail-product-mna.php?id=3",
-        title: "Kondo Modern di Akihabara",
-        location: "Akihabara, Tokyo",
-        price: "¥ 85 Juta",
-        image: "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        type: "property",
-        category: "Kondo",
-        features: [
-            { icon: "fas fa-bed", text: "1 Kamar" },
-            { icon: "fas fa-bath", text: "1 Kamar Mandi" },
-            { icon: "fas fa-ruler-combined", text: "40 m²" }
-        ],
-        dateAdded: "2024-02-08"
-    },
-    {
-        id: 4,
-        link: "detail-product-mna.php?id=4",
-        title: "Townhouse Luxe di Roppongi",
-        location: "Roppongi, Tokyo",
-        price: "¥ 350 Juta",
-        image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        type: "property",
-        category: "Townhouse",
-        features: [
-            { icon: "fas fa-bed", text: "3 Kamar" },
-            { icon: "fas fa-bath", text: "2.5 Kamar Mandi" },
-            { icon: "fas fa-car", text: "Parkir 2 Mobil" }
-        ],
-        dateAdded: "2024-02-05"
-    },
-    {
-        id: 5,
-        link: "detail-product-mna.php?id=5",
-        title: "Apartemen dengan Onsen View Hakone",
-        location: "Hakone, Kanagawa",
-        price: "¥ 180 Juta",
-        image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        type: "property",
-        category: "Apartemen",
-        features: [
-            { icon: "fas fa-bed", text: "2 Kamar" },
-            { icon: "fas fa-bath", text: "1 Kamar Mandi" },
-            { icon: "fas fa-hot-tub", text: "Onsen Private" }
-        ],
-        dateAdded: "2024-02-03"
-    },
-    {
-        id: 6,
-        link: "detail-product-mna.php?id=6",
-        title: "Villa Modern di Shonan",
-        location: "Shonan, Kanagawa",
-        price: "¥ 500 Juta",
-        image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        type: "property",
-        category: "Villa",
-        features: [
-            { icon: "fas fa-bed", text: "5 Kamar" },
-            { icon: "fas fa-bath", text: "3 Kamar Mandi" },
-            { icon: "fas fa-swimming-pool", text: "Kolam Renang" }
-        ],
-        dateAdded: "2024-02-01"
-    },
-    {
-        id: 7,
-        link: "detail-product-mna.php?id=7",
-        title: "Ruko Komersial di Shibuya",
-        location: "Shibuya, Tokyo",
-        price: "¥ 450 Juta",
-        image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        type: "property",
-        category: "Komersial",
-        features: [
-            { icon: "fas fa-store", text: "2 Lantai" },
-            { icon: "fas fa-car", text: "Parkir 5 Mobil" },
-            { icon: "fas fa-ruler-combined", text: "200 m²" }
-        ],
-        dateAdded: "2024-01-28"
-    },
-    {
-        id: 8,
-        link: "detail-product-mna.php?id=8",
-        title: "Apartemen Studio di Shinagawa",
-        location: "Shinagawa, Tokyo",
-        price: "¥ 75 Juta",
-        image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        type: "property",
-        category: "Apartemen",
-        features: [
-            { icon: "fas fa-bed", text: "Studio" },
-            { icon: "fas fa-bath", text: "1 Kamar Mandi" },
-            { icon: "fas fa-ruler-combined", text: "30 m²" }
-        ],
-        dateAdded: "2024-01-25"
-    },
-    {
-        id: 9,
-        link: "detail-product-mna.php?id=9",
-        title: "Rumah Keluarga di Yokohama",
-        location: "Yokohama, Kanagawa",
-        price: "¥ 320 Juta",
-        image: "https://images.unsplash.com/photo-1513584684374-8bab748fbf90?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        type: "property",
-        category: "Rumah",
-        features: [
-            { icon: "fas fa-bed", text: "4 Kamar" },
-            { icon: "fas fa-bath", text: "2 Kamar Mandi" },
-            { icon: "fas fa-tree", text: "Taman Luas" }
-        ],
-        dateAdded: "2024-01-22"
-    },
-    {
-        id: 10,
-        link: "detail-product-mna.php?id=10",
-        title: "Apartemen View Fuji di Gotemba",
-        location: "Gotemba, Shizuoka",
-        price: "¥ 150 Juta",
-        image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        type: "property",
-        category: "Apartemen",
-        features: [
-            { icon: "fas fa-bed", text: "2 Kamar" },
-            { icon: "fas fa-bath", text: "1 Kamar Mandi" },
-            { icon: "fas fa-mountain", text: "View Gunung Fuji" }
-        ],
-        dateAdded: "2024-01-20"
-    },
-    {
-        id: 11,
-        link: "detail-product-mna.php?id=11",
-        title: "Rumah Minimalis di Kobe",
-        location: "Kobe, Hyogo",
-        price: "¥ 280 Juta",
-        image: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        type: "property",
-        category: "Rumah",
-        features: [
-            { icon: "fas fa-bed", text: "3 Kamar" },
-            { icon: "fas fa-bath", text: "2 Kamar Mandi" },
-            { icon: "fas fa-ruler-combined", text: "180 m²" }
-        ],
-        dateAdded: "2024-01-18"
-    },
-    {
-        id: 12,
-        link: "detail-product-mna.php?id=12",
-        title: "Apartemen Premium di Ginza",
-        location: "Ginza, Tokyo",
-        price: "¥ 200 Juta",
-        image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        type: "property",
-        category: "Apartemen",
-        features: [
-            { icon: "fas fa-bed", text: "2 Kamar" },
-            { icon: "fas fa-bath", text: "2 Kamar Mandi" },
-            { icon: "fas fa-building", text: "Concierge 24/7" }
-        ],
-        dateAdded: "2024-01-15"
-    },
-    {
-        id: 13,
-        link: "detail-product-mna.php?id=13",
-        title: "Tanah Kavling di Chiba",
-        location: "Chiba-shi, Chiba",
-        price: "¥ 90 Juta",
-        image: "https://images.unsplash.com/photo-1448630360428-65456885c650?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        type: "property",
-        category: "Tanah",
-        features: [
-            { icon: "fas fa-ruler-combined", text: "300 m²" },
-            { icon: "fas fa-road", text: "Akses Jalan Raya" },
-            { icon: "fas fa-tree", text: "Lokasi Strategis" }
-        ],
-        dateAdded: "2024-01-12"
-    },
-    {
-        id: 14,
-        link: "detail-product-mna.php?id=14",
-        title: "Rumah Tua Renovasi di Osaka",
-        location: "Namba, Osaka",
-        price: "¥ 190 Juta",
-        image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        type: "property",
-        category: "Rumah",
-        features: [
-            { icon: "fas fa-bed", text: "3 Kamar" },
-            { icon: "fas fa-bath", text: "1 Kamar Mandi" },
-            { icon: "fas fa-hammer", text: "Full Renovasi 2023" }
-        ],
-        dateAdded: "2024-01-10"
-    },
-    {
-        id: 15,
-        link: "detail-product-mna.php?id=15",
-        title: "Apartemen dekat Stasiun Tokyo",
-        location: "Chiyoda, Tokyo",
-        price: "¥ 135 Juta",
-        image: "https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        type: "property",
-        category: "Apartemen",
-        features: [
-            { icon: "fas fa-bed", text: "1 Kamar" },
-            { icon: "fas fa-bath", text: "1 Kamar Mandi" },
-            { icon: "fas fa-train", text: "5 menit ke Stasiun" }
-        ],
-        dateAdded: "2024-01-08"
-    },
-    {
-        id: 16,
-        link: "detail-product-mna.php?id=16",
-        title: "Villa Ski di Niseko",
-        location: "Niseko, Hokkaido",
-        price: "¥ 600 Juta",
-        image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        type: "property",
-        category: "Villa",
-        features: [
-            { icon: "fas fa-bed", text: "6 Kamar" },
-            { icon: "fas fa-bath", text: "4 Kamar Mandi" },
-            { icon: "fas fa-skiing", text: "Akses Ski Resort" }
-        ],
-        dateAdded: "2024-01-05"
-    },
-    {
-        id: 17,
-        link: "detail-product-mna.php?id=17",
-        title: "Gedung Perkantoran di Nagoya",
-        location: "Nagoya, Aichi",
-        price: "¥ 800 Juta",
-        image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        type: "property",
-        category: "Komersial",
-        features: [
-            { icon: "fas fa-building", text: "8 Lantai" },
-            { icon: "fas fa-elevator", text: "2 Elevator" },
-            { icon: "fas fa-ruler-combined", text: "1200 m²" }
-        ],
-        dateAdded: "2024-01-03"
-    },
-    {
-        id: 18,
-        link: "detail-product-mna.php?id=18",
-        title: "Mansion di Meguro",
-        location: "Meguro, Tokyo",
-        price: "¥ 420 Juta",
-        image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        type: "property",
-        category: "Mansion",
-        features: [
-            { icon: "fas fa-bed", text: "4 Kamar" },
-            { icon: "fas fa-bath", text: "3 Kamar Mandi" },
-            { icon: "fas fa-gem", text: "Interior Mewah" }
-        ],
-        dateAdded: "2024-01-01"
-    },
-    {
-        id: 19,
-        link: "detail-product-mna.php?id=19",
-        title: "Apartemen Murah di Saitama",
-        location: "Saitama-shi, Saitama",
-        price: "¥ 65 Juta",
-        image: "https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        type: "property",
-        category: "Apartemen",
-        features: [
-            { icon: "fas fa-bed", text: "1 Kamar" },
-            { icon: "fas fa-bath", text: "1 Kamar Mandi" },
-            { icon: "fas fa-wallet", text: "Harga Terjangkau" }
-        ],
-        dateAdded: "2023-12-28"
-    },
-    {
-        id: 20,
-        link: "detail-product-mna.php?id=20",
-        title: "Rumah Peternakan di Hokkaido",
-        location: "Sapporo, Hokkaido",
-        price: "¥ 350 Juta",
-        image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        type: "property",
-        category: "Rumah",
-        features: [
-            { icon: "fas fa-bed", text: "5 Kamar" },
-            { icon: "fas fa-bath", text: "3 Kamar Mandi" },
-            { icon: "fas fa-tractor", text: "Lahan 5000 m²" }
-        ],
-        dateAdded: "2023-12-25"
-    }
-];
-        
-        // Fungsi untuk membuat pagination
-        function createPagination(totalItems, currentPage, itemsPerPage) {
-            paginationList.innerHTML = '';
-            
-            const totalPages = Math.ceil(totalItems / itemsPerPage);
-            
-            if (totalPages <= 1) {
-                paginationContainer.classList.add('d-none');
-                return;
-            }
-            
-            paginationContainer.classList.remove('d-none');
-            
-            // Tombol Previous
-            const prevLi = document.createElement('li');
-            prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
-            prevLi.innerHTML = `
-                <a class="page-link" href="#" data-page="${currentPage - 1}">
-                    <i class="fas fa-chevron-left me-1"></i> Sebelumnya
-                </a>
-            `;
-            paginationList.appendChild(prevLi);
-            
-            // Nomor halaman
-            let startPage = Math.max(1, currentPage - 1);
-            let endPage = Math.min(totalPages, startPage + 2);
-            
-            if (endPage - startPage < 2) {
-                startPage = Math.max(1, endPage - 2);
-            }
-            
-            for (let i = startPage; i <= endPage; i++) {
-                const pageLi = document.createElement('li');
-                pageLi.className = `page-item ${i === currentPage ? 'active' : ''}`;
-                pageLi.innerHTML = `<a class="page-link" href="#" data-page="${i}">${i}</a>`;
-                paginationList.appendChild(pageLi);
-            }
-            
-            // Tombol Next
-            const nextLi = document.createElement('li');
-            nextLi.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
-            nextLi.innerHTML = `
-                <a class="page-link" href="#" data-page="${currentPage + 1}">
-                    Selanjutnya <i class="fas fa-chevron-right ms-1"></i>
-                </a>
-            `;
-            paginationList.appendChild(nextLi);
+            { id: 1, link: "detail-product-mna.php?id=1", title: "Apartemen Premium Shinjuku Sky View", location: "Shinjuku, Tokyo", price: "¥ 120 Juta", image: "https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80", type: "Buy", category: "Apartemen", features: [{ icon: "fas fa-bed", text: "2 Kamar" }, { icon: "fas fa-bath", text: "1 Kamar Mandi" }, { icon: "fas fa-ruler-combined", text: "65 m²" }], dateAdded: "2024-02-15" },
+            { id: 2, link: "detail-product-mna.php?id=2", title: "Rumah Tradisional Kyoto Machiya", location: "Gion, Kyoto", price: "¥ 250 Juta", image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80", type: "Buy", category: "Rumah", features: [{ icon: "fas fa-bed", text: "4 Kamar" }, { icon: "fas fa-bath", text: "2 Kamar Mandi" }, { icon: "fas fa-tree", text: "Taman Jepang" }], dateAdded: "2024-02-10" },
+            { id: 3, link: "detail-product-mna.php?id=3", title: "Kondo Modern di Akihabara", location: "Akihabara, Tokyo", price: "¥ 85 Juta", image: "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80", type: "Buy", category: "Kondo", features: [{ icon: "fas fa-bed", text: "1 Kamar" }, { icon: "fas fa-bath", text: "1 Kamar Mandi" }, { icon: "fas fa-ruler-combined", text: "40 m²" }], dateAdded: "2024-02-08" },
+            { id: 4, link: "detail-product-mna.php?id=4", title: "Townhouse Luxe di Roppongi", location: "Roppongi, Tokyo", price: "¥ 350 Juta", image: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80", type: "Rent", category: "Townhouse", features: [{ icon: "fas fa-bed", text: "3 Kamar" }, { icon: "fas fa-bath", text: "2.5 Kamar Mandi" }, { icon: "fas fa-car", text: "Parkir 2 Mobil" }], dateAdded: "2024-02-05" },
+            { id: 5, link: "detail-product-mna.php?id=5", title: "Apartemen dengan Onsen View Hakone", location: "Hakone, Kanagawa", price: "¥ 180 Juta", image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80", type: "Buy", category: "Apartemen", features: [{ icon: "fas fa-bed", text: "2 Kamar" }, { icon: "fas fa-bath", text: "1 Kamar Mandi" }, { icon: "fas fa-hot-tub", text: "Onsen Private" }], dateAdded: "2024-02-03" },
+            { id: 6, link: "detail-product-mna.php?id=6", title: "Villa Modern di Shonan", location: "Shonan, Kanagawa", price: "¥ 500 Juta", image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80", type: "Rent", category: "Villa", features: [{ icon: "fas fa-bed", text: "5 Kamar" }, { icon: "fas fa-bath", text: "3 Kamar Mandi" }, { icon: "fas fa-swimming-pool", text: "Kolam Renang" }], dateAdded: "2024-02-01" },
+            { id: 7, link: "detail-product-mna.php?id=7", title: "Ruko Komersial di Shibuya", location: "Shibuya, Tokyo", price: "¥ 450 Juta", image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80", type: "Rent", category: "Komersial", features: [{ icon: "fas fa-store", text: "2 Lantai" }, { icon: "fas fa-car", text: "Parkir 5 Mobil" }, { icon: "fas fa-ruler-combined", text: "200 m²" }], dateAdded: "2024-01-28" },
+            { id: 8, link: "detail-product-mna.php?id=8", title: "Apartemen Studio di Shinagawa", location: "Shinagawa, Tokyo", price: "¥ 75 Juta", image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80", type: "Buy", category: "Apartemen", features: [{ icon: "fas fa-bed", text: "Studio" }, { icon: "fas fa-bath", text: "1 Kamar Mandi" }, { icon: "fas fa-ruler-combined", text: "30 m²" }], dateAdded: "2024-01-25" },
+            { id: 9, link: "detail-product-mna.php?id=9", title: "Rumah Keluarga di Yokohama", location: "Yokohama, Kanagawa", price: "¥ 320 Juta", image: "https://images.unsplash.com/photo-1513584684374-8bab748fbf90?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80", type: "Buy", category: "Rumah", features: [{ icon: "fas fa-bed", text: "4 Kamar" }, { icon: "fas fa-bath", text: "2 Kamar Mandi" }, { icon: "fas fa-tree", text: "Taman Luas" }], dateAdded: "2024-01-22" },
+            { id: 10, link: "detail-product-mna.php?id=10", title: "Apartemen View Fuji di Gotemba", location: "Gotemba, Shizuoka", price: "¥ 150 Juta", image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80", type: "Rent", category: "Apartemen", features: [{ icon: "fas fa-bed", text: "2 Kamar" }, { icon: "fas fa-bath", text: "1 Kamar Mandi" }, { icon: "fas fa-mountain", text: "View Gunung Fuji" }], dateAdded: "2024-01-20" },
+            { id: 11, link: "detail-product-mna.php?id=11", title: "Rumah Minimalis di Kobe", location: "Kobe, Hyogo", price: "¥ 280 Juta", image: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80", type: "Rent", category: "Rumah", features: [{ icon: "fas fa-bed", text: "3 Kamar" }, { icon: "fas fa-bath", text: "2 Kamar Mandi" }, { icon: "fas fa-ruler-combined", text: "180 m²" }], dateAdded: "2024-01-18" },
+            { id: 12, link: "detail-product-mna.php?id=12", title: "Apartemen Premium di Ginza", location: "Ginza, Tokyo", price: "¥ 200 Juta", image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80", type: "Rent", category: "Apartemen", features: [{ icon: "fas fa-bed", text: "2 Kamar" }, { icon: "fas fa-bath", text: "2 Kamar Mandi" }, { icon: "fas fa-building", text: "Concierge 24/7" }], dateAdded: "2024-01-15" },
+            { id: 13, link: "detail-product-mna.php?id=13", title: "Tanah Kavling di Chiba", location: "Chiba-shi, Chiba", price: "¥ 90 Juta", image: "https://images.unsplash.com/photo-1448630360428-65456885c650?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80", type: "Rent", category: "Tanah", features: [{ icon: "fas fa-ruler-combined", text: "300 m²" }, { icon: "fas fa-road", text: "Akses Jalan Raya" }, { icon: "fas fa-tree", text: "Lokasi Strategis" }], dateAdded: "2024-01-12" },
+            { id: 14, link: "detail-product-mna.php?id=14", title: "Rumah Tua Renovasi di Osaka", location: "Namba, Osaka", price: "¥ 190 Juta", image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80", type: "Rent", category: "Rumah", features: [{ icon: "fas fa-bed", text: "3 Kamar" }, { icon: "fas fa-bath", text: "1 Kamar Mandi" }, { icon: "fas fa-hammer", text: "Full Renovasi 2023" }], dateAdded: "2024-01-10" },
+            { id: 15, link: "detail-product-mna.php?id=15", title: "Apartemen dekat Stasiun Tokyo", location: "Chiyoda, Tokyo", price: "¥ 135 Juta", image: "https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80", type: "Buy", category: "Apartemen", features: [{ icon: "fas fa-bed", text: "1 Kamar" }, { icon: "fas fa-bath", text: "1 Kamar Mandi" }, { icon: "fas fa-train", text: "5 menit ke Stasiun" }], dateAdded: "2024-01-08" },
+            { id: 16, link: "detail-product-mna.php?id=16", title: "Villa Ski di Niseko", location: "Niseko, Hokkaido", price: "¥ 600 Juta", image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80", type: "Rent", category: "Villa", features: [{ icon: "fas fa-bed", text: "6 Kamar" }, { icon: "fas fa-bath", text: "4 Kamar Mandi" }, { icon: "fas fa-skiing", text: "Akses Ski Resort" }], dateAdded: "2024-01-05" },
+            { id: 17, link: "detail-product-mna.php?id=17", title: "Gedung Perkantoran di Nagoya", location: "Nagoya, Aichi", price: "¥ 800 Juta", image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80", type: "Buy", category: "Komersial", features: [{ icon: "fas fa-building", text: "8 Lantai" }, { icon: "fas fa-elevator", text: "2 Elevator" }, { icon: "fas fa-ruler-combined", text: "1200 m²" }], dateAdded: "2024-01-03" },
+            { id: 18, link: "detail-product-mna.php?id=18", title: "Mansion di Meguro", location: "Meguro, Tokyo", price: "¥ 420 Juta", image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80", type: "Buy", category: "Mansion", features: [{ icon: "fas fa-bed", text: "4 Kamar" }, { icon: "fas fa-bath", text: "3 Kamar Mandi" }, { icon: "fas fa-gem", text: "Interior Mewah" }], dateAdded: "2024-01-01" },
+            { id: 19, link: "detail-product-mna.php?id=19", title: "Apartemen Murah di Saitama", location: "Saitama-shi, Saitama", price: "¥ 65 Juta", image: "https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80", type: "Buy", category: "Apartemen", features: [{ icon: "fas fa-bed", text: "1 Kamar" }, { icon: "fas fa-bath", text: "1 Kamar Mandi" }, { icon: "fas fa-wallet", text: "Harga Terjangkau" }], dateAdded: "2023-12-28" },
+            { id: 20, link: "detail-product-mna.php?id=20", title: "Rumah Peternakan di Hokkaido", location: "Sapporo, Hokkaido", price: "¥ 350 Juta", image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80", type: "Buy", category: "Rumah", features: [{ icon: "fas fa-bed", text: "5 Kamar" }, { icon: "fas fa-bath", text: "3 Kamar Mandi" }, { icon: "fas fa-tractor", text: "Lahan 5000 m²" }], dateAdded: "2023-12-25" }
+        ];
+
+        // --- CORE FUNCTIONS ---
+
+        // 1. Fungsi Filter Utama
+        function getFilteredAndSortedListings() {
+            let filtered = [...propertyListingsData];
+
+            // Ambil nilai filter
+            const areaValue = filterArea.value.toLowerCase();
+            const jenisValue = filterJenis.value;
+            const budgetValue = filterBudget.value;
+            const typeValue = filterType.value;
+
+            // Proses Filtering
+            filtered = filtered.filter(item => {
+                const matchArea = areaValue === "" || item.location.toLowerCase().includes(areaValue);
+                const matchJenis = jenisValue === "" || item.category === jenisValue;
+                const matchType = typeValue === "" || item.type === typeValue;
+                
+                let matchBudget = true;
+                if (budgetValue !== "") {
+                    // Extract angka dari string "¥ 120 Juta" -> 120
+                    const priceNum = parseFloat(item.price.replace(/[^\d]/g, ''));
+                    const [min, max] = budgetValue.split('-').map(Number);
+                    matchBudget = priceNum >= min && priceNum <= max;
+                }
+
+                return matchArea && matchJenis && matchType && matchBudget;
+            });
+
+            // Proses Sorting
+            return sortListings(filtered, sortSelect.value);
         }
-        
-        // Fungsi untuk merender semua listing dengan pagination
-        function renderAllListings(listings) {
+
+        // 2. Fungsi Sorting
+        function sortListings(listings, sortBy) {
+            const sorted = [...listings];
+            const extractNum = (str) => {
+                const matches = str.match(/[\d,.]+/);
+                return matches ? parseFloat(matches[0].replace(/[,.]/g, '')) : 0;
+            };
+
+            switch(sortBy) {
+                case 'price-low': sorted.sort((a, b) => extractNum(a.price) - extractNum(b.price)); break;
+                case 'price-high': sorted.sort((a, b) => extractNum(b.price) - extractNum(a.price)); break;
+                case 'name': sorted.sort((a, b) => a.title.localeCompare(b.title)); break;
+                case 'newest':
+                default: sorted.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded)); break;
+            }
+            return sorted;
+        }
+
+        // 3. Fungsi Render ke HTML
+        function renderAllListings() {
+            const listings = getFilteredAndSortedListings();
             allListingsContainer.innerHTML = '';
             
             if (listings.length === 0) {
                 emptyState.classList.remove('d-none');
                 allListingsContainer.classList.add('d-none');
                 paginationContainer.classList.add('d-none');
+                updateCounters([]);
                 return;
             }
             
             emptyState.classList.add('d-none');
             allListingsContainer.classList.remove('d-none');
             
-            // Hitung pagination
             const startIndex = (currentPage - 1) * listingsPerPage;
-            const endIndex = startIndex + listingsPerPage;
-            const paginatedListings = listings.slice(startIndex, endIndex);
+            const paginatedListings = listings.slice(startIndex, startIndex + listingsPerPage);
             
-            // Buat pagination
             createPagination(listings.length, currentPage, listingsPerPage);
             
-            // Render listing untuk halaman saat ini
             paginatedListings.forEach((listing, index) => {
-                const featuresHtml = listing.features.map(feature => 
-                    `<span><i class="${feature.icon}"></i> ${feature.text}</span>`
-                ).join('');
+                const featuresHtml = listing.features.map(f => `<span><i class="${f.icon}"></i> ${f.text}</span>`).join('');
+                const delay = index % 3 * 100;
                 
-                const animationDelay = index % 3 * 100;
-                
-                const listingHtml = `
-                    <div class="col-md-6 col-lg-4 mb-4" 
-                         data-aos="fade-up"
-                         data-aos-delay="${animationDelay}"
-                         data-aos-duration="800">
+                allListingsContainer.innerHTML += `
+                    <div class="col-md-6 col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="${delay}">
                         <div class="property-card h-100 position-relative">
-                            <div class="property-type-badge">Properti</div>
-                            <div class="property-img">
-                                <img src="${listing.image}" alt="${listing.title}" loading="lazy">
-                            </div>
+                            <div class="property-type-badge">${listing.type}</div>
+                            <div class="property-img"><img src="${listing.image}" alt="${listing.title}" loading="lazy"></div>
                             <div class="property-info">
                                 <h5 class="mb-2">${listing.title}</h5>
-                                <p class="text-muted mb-2">
-                                    <i class="fas fa-map-marker-alt me-1"></i> ${listing.location}
-                                </p>
+                                <p class="text-muted mb-2"><i class="fas fa-map-marker-alt me-1"></i> ${listing.location}</p>
                                 <p class="property-price mb-3">${listing.price}</p>
-                                <div class="property-features mb-3">
-                                    ${featuresHtml}
-                                </div>
+                                <div class="property-features mb-3">${featuresHtml}</div>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span class="badge bg-secondary">${listing.category}</span>
-                                    <a href="${listing.link}" class="btn btn-primary btn-sm">
-                                        Detail <i class="fas fa-arrow-right ms-1"></i>
-                                    </a>
+                                    <a href="${listing.link}" class="btn btn-primary btn-sm">Detail <i class="fas fa-arrow-right ms-1"></i></a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                `;
-                
-                allListingsContainer.innerHTML += listingHtml;
+                    </div>`;
             });
             
-            // Update counters
             updateCounters(listings);
-            
-            // Refresh AOS setelah menambahkan elemen baru
-            setTimeout(() => {
-                AOS.refresh();
-            }, 100);
+            setTimeout(() => AOS.refresh(), 100);
         }
-        
-        // Fungsi untuk update counters
+
+        // 4. Pagination & Counters
+        function createPagination(totalItems, current, perPage) {
+            paginationList.innerHTML = '';
+            const totalPages = Math.ceil(totalItems / perPage);
+            if (totalPages <= 1) { paginationContainer.classList.add('d-none'); return; }
+            paginationContainer.classList.remove('d-none');
+
+            const addPage = (p, label, active = false, disabled = false) => {
+                const li = document.createElement('li');
+                li.className = `page-item ${active ? 'active' : ''} ${disabled ? 'disabled' : ''}`;
+                li.innerHTML = `<a class="page-link" href="#" data-page="${p}">${label}</a>`;
+                paginationList.appendChild(li);
+            };
+
+            addPage(current - 1, '<i class="fas fa-chevron-left"></i>', false, current === 1);
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= current - 1 && i <= current + 1)) {
+                    addPage(i, i, i === current);
+                }
+            }
+            addPage(current + 1, '<i class="fas fa-chevron-right"></i>', false, current === totalPages);
+        }
+
         function updateCounters(listings) {
             totalListingsCount.textContent = listings.length;
-            
-            const apartmentCountValue = listings.filter(listing => listing.category === 'Apartemen').length;
-            const houseCountValue = listings.filter(listing => listing.category === 'Rumah' || listing.category === 'Townhouse').length;
-            
-            apartmentCount.textContent = apartmentCountValue;
-            houseCount.textContent = houseCountValue;
+            apartmentCount.textContent = listings.filter(l => l.category === 'Apartemen').length;
+            houseCount.textContent = listings.filter(l => l.category === 'Rumah' || l.category === 'Townhouse').length;
         }
-        
-        // Fungsi untuk sorting
-        function sortListings(listings, sortBy) {
-            const sortedListings = [...listings];
-            
-            switch(sortBy) {
-                case 'price-low':
-                    sortedListings.sort((a, b) => {
-                        const extractNumber = (priceStr) => {
-                            const matches = priceStr.match(/[\d,.]+/);
-                            return matches ? parseFloat(matches[0].replace(/[,.]/g, '')) : 0;
-                        };
-                        
-                        return extractNumber(a.price) - extractNumber(b.price);
-                    });
-                    break;
-                    
-                case 'price-high':
-                    sortedListings.sort((a, b) => {
-                        const extractNumber = (priceStr) => {
-                            const matches = priceStr.match(/[\d,.]+/);
-                            return matches ? parseFloat(matches[0].replace(/[,.]/g, '')) : 0;
-                        };
-                        
-                        return extractNumber(b.price) - extractNumber(a.price);
-                    });
-                    break;
-                    
-                case 'name':
-                    sortedListings.sort((a, b) => a.title.localeCompare(b.title));
-                    break;
-                    
-                case 'newest':
-                default:
-                    sortedListings.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
-                    break;
-            }
-            
-            return sortedListings;
-        }
-        
-        // Event listener untuk sorting
-        sortSelect.addEventListener('change', function() {
-            currentPage = 1;
-            let sortedListings = sortListings(propertyListingsData, this.value);
-            renderAllListings(sortedListings);
-        });
-        
-        // Event listener untuk reset filters
-        if (resetFiltersBtn) {
-            resetFiltersBtn.addEventListener('click', function() {
+
+        // --- EVENT LISTENERS ---
+
+        // Listener untuk semua dropdown Filter
+        [filterArea, filterJenis, filterBudget, filterType].forEach(el => {
+            if(el) el.addEventListener('change', () => {
                 currentPage = 1;
+                renderAllListings();
+            });
+        });
+
+        // Listener Sort
+        sortSelect.addEventListener('change', () => {
+            currentPage = 1;
+            renderAllListings();
+        });
+
+        // Listener Pagination
+        paginationContainer.addEventListener('click', (e) => {
+            e.preventDefault();
+            const link = e.target.closest('.page-link');
+            if (link && !link.parentElement.classList.contains('disabled')) {
+                currentPage = parseInt(link.dataset.page);
+                renderAllListings();
+                window.scrollTo({ top: allListingsContainer.offsetTop - 100, behavior: 'smooth' });
+            }
+        });
+
+        // Reset Filter
+        if (resetFiltersBtn) {
+            resetFiltersBtn.addEventListener('click', () => {
+                [filterArea, filterJenis, filterBudget, filterType].forEach(el => { if(el) el.value = ""; });
                 sortSelect.value = 'newest';
-                let sortedListings = sortListings(propertyListingsData, 'newest');
-                renderAllListings(sortedListings);
+                currentPage = 1;
+                renderAllListings();
             });
         }
-        
-        // Event listener untuk pagination (gunakan event delegation)
-        paginationContainer.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const pageLink = e.target.closest('.page-link');
-            if (!pageLink) return;
-            
-            const page = parseInt(pageLink.dataset.page);
-            if (!isNaN(page)) {
-                currentPage = page;
-                
-                const sortValue = sortSelect.value;
-                let sortedListings = sortListings(propertyListingsData, sortValue);
-                
-                renderAllListings(sortedListings);
-                
-                // Scroll ke atas kontainer listing
-                allListingsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        });
-        
-        // Load semua listing saat halaman pertama kali diakses
+
+        // --- INITIAL LOAD ---
         setTimeout(() => {
             loadingIndicator.classList.add('d-none');
-            let sortedListings = sortListings(propertyListingsData, 'newest');
-            renderAllListings(sortedListings);
+            renderAllListings();
         }, 500);
     });
 </script>
