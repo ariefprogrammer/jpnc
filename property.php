@@ -18,13 +18,14 @@
         <div class="row mb-4" data-aos="fade-up" data-aos-duration="1000">
             <div class="col-12">
                 <div class="card filter-card p-4">
-                    <div class="row align-items-center">
-                        <div class="col-md-8 mb-3 mb-md-0">
-                            <h5 class="mb-2">Filter Property</h5>
+                    <div class="align-items-center">
+                        <div class="mb-3 mb-md-0">
+                            <!-- <h5 class="mb-2">Filter Property</h5> -->
                             <!-- Filter disini -->
                              <div class="col-md-12">
                                 <div class="row g-2">
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
+                                        <label class="form-label small fw-bold">Area</label>
                                         <select class="form-select filter-input" id="filterArea">
                                             <option value="">Semua Area</option>
                                             <option value="Tokyo">Tokyo</option>
@@ -34,7 +35,8 @@
                                             <option value="Hokkaido">Hokkaido</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
+                                        <label class="form-label small fw-bold">Bidang</label>
                                         <select class="form-select filter-input" id="filterJenis">
                                             <option value="">Semua Jenis</option>
                                             <option value="Apartemen">Apartemen</option>
@@ -44,7 +46,8 @@
                                             <option value="Komersial">Komersial</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
+                                        <label class="form-label small fw-bold">Budget</label>
                                         <select class="form-select filter-input" id="filterBudget">
                                             <option value="">Semua Budget</option>
                                             <option value="0-100">Dibawah ¥ 100 Juta</option>
@@ -52,25 +55,32 @@
                                             <option value="300-9999">Diatas ¥ 300 Juta</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
+                                        <label class="form-label small fw-bold">Buy/Rent</label>
                                         <select class="form-select filter-input" id="filterType">
-                                            <option value="">Buy/Rent</option>
+                                            <option value="">Semua tipe</option>
                                             <option value="Buy">Buy</option>
                                             <option value="Rent">Rent</option>
                                         </select>
                                     </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label small fw-bold">Filter</label>
+                                        <select class="form-select sort-select" style="min-width: 200px;">
+                                            <option value="newest">Terbaru</option>
+                                            <option value="price-low">Harga: Rendah ke Tinggi</option>
+                                            <option value="price-high">Harga: Tinggi ke Rendah</option>
+                                            <option value="name">Nama (A-Z)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <!-- <label class="form-label small fw-bold">Aksi</label><br> -->
+                                         <br>
+                                        <button type="button" class="mt-2 btn btn-link btn-sm text-decoration-none reset-filters">
+                                            <i class="fas fa-sync-alt me-1"></i> Reset Filter
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="col-md-4 mb-3 mb-md-0">
-                            <h5 class="mb-2">Urutkan</h5>
-                            <select class="form-select sort-select" style="min-width: 200px;">
-                                <option value="newest">Terbaru</option>
-                                <option value="price-low">Harga: Rendah ke Tinggi</option>
-                                <option value="price-high">Harga: Tinggi ke Rendah</option>
-                                <option value="name">Nama (A-Z)</option>
-                            </select>
                         </div>
                     </div>
                 </div>
@@ -471,9 +481,19 @@
                 renderAllListings();
             });
         });
-
+        
         // Listener Sort
         sortSelect.addEventListener('change', () => {
+            currentPage = 1;
+            renderAllListings();
+        });
+        
+        resetFiltersBtn.addEventListener('click', () => {
+            filterArea.value = "";
+            filterJenis.value = "";
+            filterBudget.value = "";
+            filterType.value = "";
+            sortSelect.value = "newest";
             currentPage = 1;
             renderAllListings();
         });
