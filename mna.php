@@ -23,7 +23,7 @@
                             <div class="row" data-aos="fade-up" data-aos-duration="1000">
                                 <form id="filterForm">
                                     <div class="row g-3">
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <label class="form-label small fw-bold">Bidang</label>
                                             <select class="form-select filter-input" id="filterBidang">
                                                 <option value="">Semua Bidang</option>
@@ -35,7 +35,7 @@
                                                 <option value="Logistik">Logistik & Transportasi</option>
                                             </select>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <label class="form-label small fw-bold">Area</label>
                                             <select class="form-select filter-input" id="filterArea">
                                                 <option value="">Semua Area</option>
@@ -46,7 +46,7 @@
                                                 <option value="Fukuoka">Fukuoka</option>
                                             </select>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <label class="form-label small fw-bold">Budget (Yen)</label>
                                             <select class="form-select filter-input" id="filterBudget">
                                                 <option value="">Semua Budget</option>
@@ -56,7 +56,7 @@
                                                 <option value="1000-99999">Diatas ¥ 1 Miliar</option>
                                             </select>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <label class="form-label small fw-bold">Urutkan</label>
                                             <select class="form-select sort-select">
                                                 <option value="newest">Terbaru</option>
@@ -65,11 +65,12 @@
                                                 <option value="name">Nama (A-Z)</option>
                                             </select>
                                         </div>
-                                    </div>
-                                    <div class="text-end mt-3">
-                                        <button type="button" class="btn btn-link btn-sm text-decoration-none reset-filters">
-                                            <i class="fas fa-sync-alt me-1"></i> Reset Filter
-                                        </button>
+                                        <div class="col-md-2">
+                                            <br>
+                                            <button type="button" class="mt-2 btn btn-link btn-sm text-decoration-none reset-filters">
+                                                <i class="fas fa-sync-alt me-1"></i> Reset Filter
+                                            </button>
+                                        </div>
                                     </div>
                                 </form>
                             </div>
