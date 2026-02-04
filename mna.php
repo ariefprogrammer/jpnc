@@ -67,9 +67,14 @@
                                         </div>
                                         <div class="col-md-2">
                                             <br>
-                                            <button type="button" class="mt-2 btn btn-link btn-sm text-decoration-none reset-filters">
-                                                <i class="fas fa-sync-alt me-1"></i> Reset Filter
+                                            <button type="button" id="toggleMapBtn" class="btn btn-primary w-100 mt-2">
+                                                <i class="fas fa-map-marker-alt me-1"></i> Show Maps
                                             </button>
+
+
+                                            <!-- <button type="button" class="mt-2 btn btn-link btn-sm text-decoration-none reset-filters">
+                                                <i class="fas fa-sync-alt me-1"></i> Reset Filter
+                                            </button> -->
                                         </div>
                                     </div>
                                 </form>
@@ -88,10 +93,20 @@
             <p class="mt-3">Memuat semua peluang M&A...</p>
         </div>
         
-        <!-- Container untuk semua listing -->
-        <div class="row" id="allListingsContainer">
-            <!-- Data akan dimuat secara dinamis -->
+        <div class="row" id="listingMapWrapper">
+
+            <!-- LISTING -->
+            <div class="col-12" id="listingColumn">
+                <div class="row" id="allListingsContainer"></div>
+            </div>
+
+            <!-- MAPS -->
+            <div class="col-md-5 d-none" id="mapColumn">
+                <div id="map" class="map-box"></div>
+            </div>
+
         </div>
+
         
         <!-- Pagination -->
         <div class="row mt-5 d-none" id="paginationContainer">
@@ -158,8 +173,6 @@
     </div>
 </section>
 
-<?php include 'footer.php'; ?>
-
 <style>
     .listings-section {
         background-color: #fff;
@@ -178,6 +191,7 @@
         transition: all 0.3s ease;
         height: 100%;
         background: white;
+        width: 100%;
     }
     
     .mna-card:hover {
@@ -270,6 +284,87 @@
             width: 100% !important;
         }
     }
+#allListingsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+}
+
+.mna-item-wrapper {
+    flex: 1 1 350px; /* Card minimal 350px, bisa membesar jika ada sisa ruang */
+    max-width: 100%; /* Agar tidak overflow di layar kecil */
+    display: flex;
+}
+
+.map-box {
+    width: 100%;
+    height: 100%; /* Biarkan mengikuti tinggi container */
+    min-height: 600px;
+    border-radius: 12px;
+    position: sticky;
+    top: 20px;
+}
+
+.map-active [data-aos] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+}
+
+/* .map-active #listingColumn {
+    flex: 0 0 58%;
+    max-width: 58%;
+} */
+    @media (min-width: 769px) {
+        .map-active #listingColumn {
+            flex: 0 0 400px; /* Kolom list dipatok lebarnya saat Map muncul */
+            max-width: 400px;
+            overflow-y: auto;
+            max-height: 800px; /* Opsional: agar list bisa di-scroll secara mandiri */
+        }
+
+        .map-active .mna-item-wrapper {
+            flex: 1 1 100%; /* Saat map aktif, paksa 1 kolom */
+        }
+    }
+.map-active #mapColumn {
+    flex: 1; 
+    display: block !important;
+}
+/* .map-active #mapColumn {
+    display: block !important;
+} */
+
+/* ===== MOBILE MAP LAYOUT ===== */
+@media (max-width: 768px) {
+
+    .map-active {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #mapColumn {
+        order: 1;
+        width: 100%;
+        margin-bottom: 16px;
+    }
+
+    #listingColumn {
+        order: 2;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .map-box {
+        min-height: 300px;
+        height: 300px;
+        position: relative;
+        top: 0;
+    }
+}
+
+
 </style>
 
 <script>
@@ -312,7 +407,8 @@
                     { icon: "fas fa-yen-sign", text: "Omzet ¥80jt/bulan" },
                     { icon: "fas fa-users", text: "15 Karyawan" }
                 ],
-                dateAdded: "2024-02-14"
+                dateAdded: "2024-02-14",
+                coordinates: { lat: 35.6719, lng: 139.7639 } // Ginza, Tokyo
             },
             {
                 id: 2,
@@ -328,7 +424,8 @@
                     { icon: "fas fa-chart-line", text: "Growth 35%/tahun" },
                     { icon: "fas fa-calendar-alt", text: "Berdiri 2019" }
                 ],
-                dateAdded: "2024-02-12"
+                dateAdded: "2024-02-12",
+                coordinates: { lat: 35.6580, lng: 139.7016 } // Shibuya Crossing, Tokyo
             },
             {
                 id: 3,
@@ -344,7 +441,8 @@
                     { icon: "fas fa-chart-line", text: "Revenue Stabil" },
                     { icon: "fas fa-users", text: "120 Karyawan" }
                 ],
-                dateAdded: "2024-02-10"
+                dateAdded: "2024-02-10",
+                coordinates: { lat: 34.6937, lng: 135.5022 } // Osaka city center
             },
             {
                 id: 4,
@@ -360,7 +458,8 @@
                     { icon: "fas fa-warehouse", text: "5 Gudang" },
                     { icon: "fas fa-users", text: "85 Karyawan" }
                 ],
-                dateAdded: "2024-02-08"
+                dateAdded: "2024-02-08",
+                coordinates: { lat: 35.4437, lng: 139.6380 } // Yokohama port area
             },
             {
                 id: 5,
@@ -376,7 +475,8 @@
                     { icon: "fas fa-yen-sign", text: "Revenue ¥25jt/bulan" },
                     { icon: "fas fa-users", text: "8 Dokter" }
                 ],
-                dateAdded: "2024-02-06"
+                dateAdded: "2024-02-06",
+                coordinates: { lat: 35.6675, lng: 139.7108 } // Omotesando, Tokyo
             },
             {
                 id: 6,
@@ -392,7 +492,8 @@
                     { icon: "fas fa-chart-line", text: "30K User Active" },
                     { icon: "fas fa-calendar-alt", text: "Berdiri 2020" }
                 ],
-                dateAdded: "2024-02-04"
+                dateAdded: "2024-02-04",
+                coordinates: { lat: 35.6700, lng: 139.7029 } // Harajuku, Tokyo
             },
             {
                 id: 7,
@@ -408,7 +509,8 @@
                     { icon: "fas fa-yen-sign", text: "Omzet ¥35jt/bulan" },
                     { icon: "fas fa-users", text: "12 Karyawan" }
                 ],
-                dateAdded: "2024-02-02"
+                dateAdded: "2024-02-02",
+                coordinates: { lat: 35.6490, lng: 139.6992 } // Daikanyama, Tokyo
             },
             {
                 id: 8,
@@ -424,7 +526,8 @@
                     { icon: "fas fa-chart-line", text: "MRR ¥15jt" },
                     { icon: "fas fa-users", text: "25 Developer" }
                 ],
-                dateAdded: "2024-01-30"
+                dateAdded: "2024-01-30",
+                coordinates: { lat: 35.6619, lng: 139.7041 } // Shibuya business district
             },
             {
                 id: 9,
@@ -440,7 +543,8 @@
                     { icon: "fas fa-yen-sign", text: "Revenue ¥500jt/tahun" },
                     { icon: "fas fa-users", text: "50 Engineer" }
                 ],
-                dateAdded: "2024-01-28"
+                dateAdded: "2024-01-28",
+                coordinates: { lat: 35.6916, lng: 139.7504 } // Chiyoda, Tokyo (near government offices)
             },
             {
                 id: 10,
@@ -456,7 +560,8 @@
                     { icon: "fas fa-bed", text: "12 Kamar" },
                     { icon: "fas fa-users", text: "10 Staff" }
                 ],
-                dateAdded: "2024-01-26"
+                dateAdded: "2024-01-26",
+                coordinates: { lat: 35.0116, lng: 135.7681 } // Central Kyoto
             },
             {
                 id: 11,
@@ -472,7 +577,8 @@
                     { icon: "fas fa-chart-line", text: "Growing Market" },
                     { icon: "fas fa-users", text: "35 Karyawan" }
                 ],
-                dateAdded: "2024-01-24"
+                dateAdded: "2024-01-24",
+                coordinates: { lat: 33.5902, lng: 130.4017 } // Fukuoka city
             },
             {
                 id: 12,
@@ -488,7 +594,8 @@
                     { icon: "fas fa-store", text: "3 Outlet" },
                     { icon: "fas fa-users", text: "45 Karyawan" }
                 ],
-                dateAdded: "2024-01-22"
+                dateAdded: "2024-01-22",
+                coordinates: { lat: 35.6938, lng: 139.7034 } // Shinjuku, Tokyo
             },
             {
                 id: 13,
@@ -504,7 +611,8 @@
                     { icon: "fas fa-chart-line", text: "50K Active Users" },
                     { icon: "fas fa-users", text: "20 Developer" }
                 ],
-                dateAdded: "2024-01-20"
+                dateAdded: "2024-01-20",
+                coordinates: { lat: 35.6590, lng: 139.7006 } // Shibuya startup area
             },
             {
                 id: 14,
@@ -520,7 +628,8 @@
                     { icon: "fas fa-yen-sign", text: "Revenue ¥800jt/tahun" },
                     { icon: "fas fa-users", text: "30 Karyawan" }
                 ],
-                dateAdded: "2024-01-18"
+                dateAdded: "2024-01-18",
+                coordinates: { lat: 34.6788, lng: 135.4986 } // Osaka port area
             },
             {
                 id: 15,
@@ -536,7 +645,8 @@
                     { icon: "fas fa-chart-line", text: "30 Client Active" },
                     { icon: "fas fa-users", text: "18 Specialist" }
                 ],
-                dateAdded: "2024-01-16"
+                dateAdded: "2024-01-16",
+                coordinates: { lat: 35.6586, lng: 139.7454 } // Minato, Tokyo (Roppongi area)
             },
             {
                 id: 16,
@@ -552,7 +662,8 @@
                     { icon: "fas fa-warehouse", text: "3 Gudang" },
                     { icon: "fas fa-users", text: "40 Karyawan" }
                 ],
-                dateAdded: "2024-01-14"
+                dateAdded: "2024-01-14",
+                coordinates: { lat: 35.1815, lng: 136.9064 } // Nagoya industrial area
             },
             {
                 id: 17,
@@ -568,7 +679,8 @@
                     { icon: "fas fa-store", text: "5 Outlet" },
                     { icon: "fas fa-users", text: "35 Pharmacist" }
                 ],
-                dateAdded: "2024-01-12"
+                dateAdded: "2024-01-12",
+                coordinates: { lat: 43.0618, lng: 141.3545 } // Sapporo city center
             },
             {
                 id: 18,
@@ -584,7 +696,8 @@
                     { icon: "fas fa-chart-line", text: "Seed Funding Stage" },
                     { icon: "fas fa-users", text: "15 Developer" }
                 ],
-                dateAdded: "2024-01-10"
+                dateAdded: "2024-01-10",
+                coordinates: { lat: 35.6604, lng: 139.6992 } // Shibuya tech hub area
             }
         ];
 
@@ -651,16 +764,19 @@
             emptyState.classList.add('d-none');
             allListingsContainer.classList.remove('d-none');
             
-            // Pagination logic
             const startIndex = (currentPage - 1) * listingsPerPage;
             const paginatedListings = listings.slice(startIndex, startIndex + listingsPerPage);
             createPagination(listings.length);
             
             paginatedListings.forEach((listing, index) => {
                 const featuresHtml = listing.features.map(f => `<span><i class="${f.icon}"></i> ${f.text}</span>`).join('');
+                
+                const aosAttr = mapVisible ? '' : `data-aos="fade-up" data-aos-delay="${index % 3 * 100}"`;
+
+                // MENGGUNAKAN WRAPPER mna-item-wrapper, BUKAN col-md-6
                 const html = `
-                    <div class="col-md-6 col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="${index % 3 * 100}">
-                        <div class="mna-card h-100 position-relative">
+                    <div class="mna-item-wrapper" data-aos="fade-up" data-aos-delay="${index % 3 * 100}">
+                        <div class="mna-card position-relative">
                             <div class="mna-type-badge">M&A</div>
                             <div class="mna-img"><img src="${listing.image}" alt="${listing.title}" loading="lazy"></div>
                             <div class="mna-info">
@@ -680,6 +796,13 @@
             
             updateStats(listings);
             setTimeout(() => AOS.refresh(), 100);
+
+            if (mapVisible) {
+                setTimeout(() => {
+                    if(map) map.invalidateSize();
+                    updateMapMarkers();
+                }, 100);
+            }
         }
 
         function createPagination(totalItems) {
@@ -738,5 +861,94 @@
             loadingIndicator.classList.add('d-none');
             renderAllListings();
         }, 500);
+
+        let map;
+        let markers = [];
+        let mapVisible = false;
+
+        const toggleMapBtn = document.getElementById('toggleMapBtn');
+        const mapColumn = document.getElementById('mapColumn');
+        const listingWrapper = document.getElementById('listingMapWrapper');
+
+        toggleMapBtn.addEventListener('click', () => {
+            mapVisible = !mapVisible;
+
+            if (mapVisible) {
+                mapColumn.classList.remove('d-none');
+                listingWrapper.classList.add('map-active');
+                toggleMapBtn.innerHTML = `<i class="fas fa-times me-1"></i> Hide Maps`;
+
+                setTimeout(() => {
+                    initMap();
+
+                    // Penting untuk mobile & desktop
+                    map.invalidateSize();
+                    renderAllListings();
+                    updateMapMarkers();
+
+                    // Auto scroll ke map di mobile
+                    if (window.innerWidth <= 768) {
+                        document.getElementById('map').scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }, 300);
+
+
+            } else {
+                mapColumn.classList.add('d-none');
+                listingWrapper.classList.remove('map-active');
+                toggleMapBtn.innerHTML = `<i class="fas fa-map-marker-alt me-1"></i> Show Maps`;
+
+                renderAllListings();
+            }
+        });
+
+
+        function initMap() {
+            if (map) return;
+
+            map = L.map('map').setView([35.6762, 139.6503], 6); // Jepang
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap'
+            }).addTo(map);
+        }
+
+        function updateMapMarkers() {
+            if (!map) return;
+
+            markers.forEach(m => map.removeLayer(m));
+            markers = [];
+
+            const listings = getFilteredAndSortedData();
+            const startIndex = (currentPage - 1) * listingsPerPage;
+            const paginatedListings = listings.slice(startIndex, startIndex + listingsPerPage);
+
+            console.log('Markers:', paginatedListings);
+
+            paginatedListings.forEach(item => {
+                if (!item.coordinates) return;
+
+                const marker = L.marker([item.coordinates.lat, item.coordinates.lng])
+                    .addTo(map)
+                    .bindPopup(`<strong>${item.title}</strong><br>${item.location}<br>${item.price}`);
+
+                markers.push(marker);
+            });
+
+            if (markers.length) {
+                const group = L.featureGroup(markers);
+                map.fitBounds(group.getBounds().pad(0.2));
+            }
+        }
     });
+
+    
+
+
 </script>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<?php include 'footer.php'; ?>
